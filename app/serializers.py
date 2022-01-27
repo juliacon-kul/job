@@ -1,15 +1,15 @@
 from rest_framework import serializers
-from app.models import Element, ElementData
+from app.models import Element
 
 
-class ElementDataSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = ElementData
-        fields = ['label']
+# class ElementDataSerializer(serializers.ModelSerializer):
+#
+#     class Meta:
+#         model = ElementData
+#         fields = ['label']
 
 class ElementSerializer(serializers.ModelSerializer):
-    data = ElementDataSerializer(required=False)
+    # data = ElementSerializer(required=False)
 
     class Meta:
         model = Element
