@@ -11,7 +11,7 @@ from app.models import Element
 
 class ElementSerializer(serializers.Serializer):
 
-    parent = serializers.PrimaryKeyRelatedField(queryset=Element.objects.all())
+    child = serializers.PrimaryKeyRelatedField(queryset=Element.objects.all())
     href = serializers.CharField(max_length=255)
     id = serializers.IntegerField(read_only=True)
     label = serializers.CharField(max_length=255)
@@ -25,10 +25,9 @@ class ElementSerializer(serializers.Serializer):
     def update(self, instance, validated_data):
         instance.label = validated_data.get('label', instance.label)
         instance.href = validated_data.get('href', instance.href)
-        instance.parent = validated_data.get('parent', instance.parent)
+        instance.parent = validated_data.get('child', instance.child)
         instance.save()
         return instance
-
 
 
 

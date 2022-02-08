@@ -6,8 +6,8 @@ from app.models import Element
 class ElementAdmin(admin.ModelAdmin):
     pass
 
-# @admin.register(ElementData)
-# class ElementDataAdmin(admin.ModelAdmin):
+# @admin.register(Data)
+# class DataAdmin(admin.ModelAdmin):
 #     pass
 
 

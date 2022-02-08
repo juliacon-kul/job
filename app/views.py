@@ -85,4 +85,3 @@ class ElementView(APIView):
 #     serializer_class = ElementSerializer
 
 
-
