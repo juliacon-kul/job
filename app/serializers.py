@@ -1,23 +1,21 @@
 from rest_framework import serializers
-from app.models import Element
+from app.models import Element, ElementManager
 
-# class ElementDataSerializer(serializers.Serializer):
-#     label = serializers.CharField(max_length=255)
-#     id = serializers.IntegerField(read_only=True)
-# #
-#     class Meta:
-#         model = ElementData
-#         fields = ['label','id']
 
-class ElementSerializer(serializers.Serializer):
 
-    child = serializers.PrimaryKeyRelatedField(queryset=Element.objects.all())
-    href = serializers.CharField(max_length=255)
-    id = serializers.IntegerField(read_only=True)
-    label = serializers.CharField(max_length=255)
+class ElementSerializer(serializers.ModelSerializer):
+
+    # parent = serializers.PrimaryKeyRelatedField(queryset=Element.objects.all())
+    # href = serializers.CharField(max_length=255)
+    # id = serializers.IntegerField(read_only=True)
+    # label = serializers.CharField(max_length=255)
+    # children = serializers.CharField(max_length=255)
+    class Meta:
+        model = Element
+        fields = '__all__'
 
     def create(self, validated_data):
-        element = Element.objects.create(**validated_data)
+        element = Element.objects.create_element(**validated_data)
 
         return element
 

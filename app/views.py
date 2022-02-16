@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from app.models import Element
+from app.models import Element, ElementManager
 from app.serializers import ElementSerializer
 from rest_framework import generics
 from rest_framework.views import APIView
