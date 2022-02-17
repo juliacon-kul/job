@@ -33,6 +33,7 @@ class ElementView(APIView):
         })
     def delete(self, request, pk):
         element = get_object_or_404(Element.objects.all(), pk = pk)
+        element.children_list_delete()
         element.delete()
         return Response({
             "message": "Element'{}' has been deleted".format(pk)
