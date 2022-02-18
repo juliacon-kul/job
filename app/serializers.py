@@ -13,9 +13,10 @@ class ElementSerializer(serializers.ModelSerializer):
         return element
 
     def update(self, instance, validated_data):
+        instance.children_list_delete()
         instance.label = validated_data.get('label', instance.label)
         instance.href = validated_data.get('href', instance.href)
-        instance.parent = validated_data.get('parent_id', instance.parent_id)
+        instance.parent_id = validated_data.get('parent_id', instance.parent_id)
         instance.children = validated_data.get('children', instance.children)
         instance.children_list()
         instance.save()

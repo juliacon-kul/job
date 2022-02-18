@@ -24,14 +24,17 @@ class Element(models.Model):
     def children_list(self, *args,**kwargs):
         el = self.parent_id
         child = nums_from_string.get_nums(el.children)
-        child.append(self.id)
+        if (len(child) == 1 and child[0] == 0):
+            child = []
+            child.append(self.id)
+        else: child.append(self.id)
         el.children = child
         el.save()
 
     def children_list_delete(self, *args,**kwargs):
         el = self.parent_id
         child = nums_from_string.get_nums(el.children)
-        child.pop(self.id-1)
+        child.remove(self.id)
         el.children = child
         el.save()
 
