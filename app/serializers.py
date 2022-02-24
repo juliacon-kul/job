@@ -3,10 +3,10 @@ from app.models import Element, ElementManager
 
 class ElementSerializer(serializers.ModelSerializer):
 
-
+    children = serializers.ListField()
     class Meta:
         model = Element
-        fields = ('href', 'parent_id', 'label', 'children')
+        fields = ('href', 'label', 'children')
 
     def create(self, validated_data):
         element = Element.objects.create_element(**validated_data)

@@ -21,6 +21,26 @@ class Element(models.Model):
 
     objects = ElementManager()
 
+    def nums_from_string(self):
+        s = self.children
+        l = len(s)
+        integ = []
+        i = 0
+        while i < l:
+            s_int = ''
+            a = s[i]
+            while '0' <= a <= '9':
+                s_int += a
+                i += 1
+                if i < l:
+                    a = s[i]
+                else:
+                    break
+            i += 1
+            if s_int != '':
+                integ.append(int(s_int))
+        return integ
+
     def children_list(self, *args,**kwargs):
         el = self.parent_id
         child = nums_from_string.get_nums(el.children)
