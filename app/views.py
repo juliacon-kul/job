@@ -15,7 +15,7 @@ class ElementView(APIView):
         for i in element:
             i.children = i.nums_from_string()
         serializer = ElementSerializer(element, many = True)
-        return Response({"element":serializer.data})
+        return Response(serializer.data)
 
     def post(self, request):
         element = request.data.get('element')
