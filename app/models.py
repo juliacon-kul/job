@@ -1,5 +1,5 @@
 from django.db import models
-import nums_from_string
+
 
 # Create your models here.
 
@@ -42,21 +42,21 @@ class Element(models.Model):
         return integ
 
     def children_list(self, *args,**kwargs):
-        el = self.parent_id
-        child = nums_from_string.get_nums(el.children)
+        # el = self.parent_id
+        child = self.parent_id.nums_from_string()
         if (len(child) == 1 and child[0] == 0):
             child = []
             child.append(self.id)
         else: child.append(self.id)
-        el.children = child
-        el.save()
+        self.parent_id.children = child
+        self.parent_id.save()
 
     def children_list_delete(self, *args,**kwargs):
-        el = self.parent_id
-        child = nums_from_string.get_nums(el.children)
+        # el = self.parent_id
+        child = self.parent_id.nums_from_string()
         child.remove(self.id)
-        el.children = child
-        el.save()
+        self.parent_id.children = child
+        self.parent_id.save()
 
 
 

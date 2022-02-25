@@ -6,7 +6,7 @@ class ElementSerializer(serializers.ModelSerializer):
     children = serializers.ListField()
     class Meta:
         model = Element
-        fields = ('id','href', 'label', 'children')
+        fields = ('id','href', 'parent_id', 'label', 'children')
 
     def create(self, validated_data):
         element = Element.objects.create_element(**validated_data)
