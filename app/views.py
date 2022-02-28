@@ -22,7 +22,7 @@ class ElementView(APIView):
         serializer = ElementSerializer(data = element)
         if serializer.is_valid(raise_exception=True):
             element_saved = serializer.save()
-        return Response({"success":"Element '{}' created succesfully".format(element_saved.label)})
+        return Response({"success":"Element with id'{}' created succesfully".format(element_saved.id)})
 
     def put(self, request, pk):
         saved_element = get_object_or_404(Element.objects.all(), pk = pk)
@@ -31,7 +31,7 @@ class ElementView(APIView):
         if serializer.is_valid(raise_exception=True):
             element_saved = serializer.save()
         return Response({
-            "success":"Element'{}' updated successfully".format(element_saved.label)
+            "success":"Element with id'{}' updated successfully".format(element_saved.id)
         })
     def delete(self, request, pk):
         element = get_object_or_404(Element.objects.all(), pk = pk)
