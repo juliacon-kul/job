@@ -3,7 +3,7 @@ from app.models import Element, ElementManager
 
 class ElementSerializer(serializers.ModelSerializer):
 
-    children = serializers.ListField()
+    children = serializers.ListField(allow_empty=True)
     class Meta:
         model = Element
         fields = ('id','href', 'parent_id', 'label', 'children')

@@ -5,6 +5,7 @@ from django.db import models
 
 class ElementManager(models.Manager):
     def create_element(self, href, parent_id, label, children):
+
         element = self.create(href = href, parent_id = parent_id, label = label, children = children)
         element.children_list()
         return element
@@ -12,7 +13,8 @@ class ElementManager(models.Manager):
 class Element(models.Model):
 
     href = models.CharField(max_length=255)
-    parent_id = models.ForeignKey("self", on_delete=models.PROTECT, null = True, blank= True)
+    # company_id = models.UUIDField(primary_key = False,default = uuid.uuid4,editable = False)
+    parent_id = models.ForeignKey("self", on_delete=models.PROTECT, null = True)
     label = models.CharField(max_length=255)
     children = models.CharField(max_length=255, default= 0, blank = True)
 

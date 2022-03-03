@@ -5,7 +5,7 @@ from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions
-from rest_framework.generics import get_object_or_404
+
 
 class ElementView(APIView):
     permission_classes = [permissions.AllowAny,]
@@ -19,72 +19,41 @@ class ElementView(APIView):
 
     def post(self, request):
         element = request.data.get('element')
+        element['children'] = []
         serializer = ElementSerializer(data = element)
         if serializer.is_valid(raise_exception=True):
             element_saved = serializer.save()
-        return Response({"success":"Element with id'{}' created succesfully".format(element_saved.id)})
+        return Response({"id":"{}".format(element_saved.id),
+                         "parent_id":"{}".format(element_saved.parent_id.id),
+                         "href":"{}".format(element_saved.href),
+                         "label":"{}".format(element_saved.label)
+                    })
 
     def put(self, request, pk):
-        saved_element = get_object_or_404(Element.objects.all(), pk = pk)
-        data = request.data.get('element')
-        serializer = ElementSerializer(instance = saved_element, data = data, partial = True)
-        if serializer.is_valid(raise_exception=True):
-            element_saved = serializer.save()
-        return Response({
-            "success":"Element with id'{}' updated successfully".format(element_saved.id)
-        })
+        try:
+            saved_element = Element.objects.get(pk = pk)
+            data = request.data.get('element')
+            serializer = ElementSerializer(instance = saved_element, data = data, partial = True)
+            if serializer.is_valid(raise_exception=True):
+                element_saved = serializer.save()
+            return Response({
+                "Элемент с id'{}' успешно изменен".format(element_saved.id)
+            })
+        except:
+            return Response("Элемент с “id”: '{}' не существует, запрос не был выполнен".format(pk))
     def delete(self, request, pk):
-        element = get_object_or_404(Element.objects.all(), pk = pk)
-        element.children_list_delete()
-        element.delete()
-        return Response({
-            "message": "Element'{}' has been deleted".format(pk)
-        },status = 204)
+        try:
+            element = Element.objects.get(pk = pk)
+            element.children_list_delete()
+            element.delete()
+            return Response({
+                "Элемент с id'{}' удален".format(pk)
+            })
+        except:
+            return Response("Элемент с “id”: '{}' не существует, запрос не был выполнен".format(pk))
 
 
-# class ElementDataView(APIView):
-#     permission_classes = [permissions.AllowAny, ]
-#
-#     def get(self, request):
-#         elementdata = ElementData.objects.all()
-#         serializer = ElementDataSerializer(elementdata, many=True)
-#         return Response({"data": serializer.data})
-#
-#     def post(self, request):
-#         elementdata = request.data.get('data')
-#         serializer = ElementSerializer(data=data)
-#         if serializer.is_valid(raise_exception=True):
-#             elementdata_saved = serializer.save()
-#         return Response({"success": "Element '{}' created succesfully".format(elementdata_saved.label)})
-#
-#     def put(self, request, pk):
-#         saved_elementdata = get_object_or_404(ElementData.objects.all(), pk=pk)
-#         data = request.data.get('data')
-#         serializer = ElementDataSerializer(instance=saved_elementdata, data=data, partial=True)
-#         if serializer.is_valid(raise_exception=True):
-#             elementdata_saved = serializer.save()
-#         return Response({
-#             "success": "Element'{}' updated successfully".format(elementdata_saved.label)
-#         })
 
-    # def delete(self, request, pk):
-    #     elementdata = get_object_or_404(ElementData.objects.all(), pk=pk)
-    #     elementdata.delete()
-    #     return Response({
-    #         "message": "Element'{}' has been deleted".format(pk)
-    #     }, status=204)
 
-# Create your views here.
-# class ElementList(generics.ListCreateAPIView):
-#     queryset = Element.objects.all()
-#     serializer_class = ElementSerializer
-#
-# # class ElementDataList(generics.ListCreateAPIView):
-# #     queryset = ElementData.objects.all()
-# #     serializer_class = ElementDataSerializer
-
-# class ElementDetail(generics.RetrieveAPIView):
-#     queryset = Element.objects.all()
-#     serializer_class = ElementSerializer
 
 
