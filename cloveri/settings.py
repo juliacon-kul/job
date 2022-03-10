@@ -25,7 +25,7 @@ SECRET_KEY = 'ecd7h8q869nljs^7c!)1)gfl!u@1$7_(sju53f_#9gv79ve=qs'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["api.cloveri.skroy.ru", "cloveri.skroy.ru"]
 
 
 # Application definition
