@@ -30,17 +30,16 @@ class ElementView(APIView):
                     })
 
     def put(self, request, pk):
-        try:
-            saved_element = Element.objects.get(pk = pk)
-            data = request.data.get('element')
-            serializer = ElementSerializer(instance = saved_element, data = data, partial = True)
-            if serializer.is_valid(raise_exception=True):
-                element_saved = serializer.save()
-            return Response({
-                "Элемент с id'{}' успешно изменен".format(element_saved.id)
-            })
-        except:
-            return Response("Элемент с “id”: '{}' не существует, запрос не был выполнен".format(pk))
+        saved_element = Element.objects.get(pk = pk)
+        data = request.data.get('element')
+        serializer = ElementSerializer(instance = saved_element, data = data, partial = True)
+        if serializer.is_valid(raise_exception=True):
+            saved_element = serializer.save()
+        return Response({
+            "Элемент с id'{}' успешно изменен".format(saved_element.id)
+        })
+        # except:
+        #     return Response("Элемент с “id”: '{}' не существует, запрос не был выполнен".format(pk))
     def delete(self, request, pk):
         try:
             element = Element.objects.get(pk = pk)

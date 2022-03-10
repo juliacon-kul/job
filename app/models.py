@@ -44,22 +44,29 @@ class Element(models.Model):
         return integ
 
     def children_list(self, *args,**kwargs):
-        # el = self.parent_id
-        child = self.parent_id.nums_from_string()
+        el = self.parent_id
+        child = el.nums_from_string()
         if (len(child) == 1 and child[0] == 0):
             child = []
             child.append(self.id)
         else: child.append(self.id)
-        self.parent_id.children = child
-        self.parent_id.save()
+        el.children = child
+        el.save()
 
     def children_list_delete(self, *args,**kwargs):
-        # el = self.parent_id
-        child = self.parent_id.nums_from_string()
+        el = self.parent_id
+        child = el.nums_from_string()
         child.remove(self.id)
-        self.parent_id.children = child
-        self.parent_id.save()
+        el.children = child
+        el.save()
 
+    def children_list_update(self):
+        el = self.parent_id
+        child = el.nums_from_string()
+        if (self.id not in child):
+            child.append(self.id)
+            el.children = child
+            el.save()
 
 
 
