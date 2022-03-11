@@ -5,6 +5,7 @@ from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions
+from django.http import Http404
 
 
 class ElementView(APIView):
@@ -30,16 +31,18 @@ class ElementView(APIView):
                     })
 
     def put(self, request, pk):
-        saved_element = Element.objects.get(pk = pk)
-        data = request.data.get('element')
-        serializer = ElementSerializer(instance = saved_element, data = data, partial = True)
-        if serializer.is_valid(raise_exception=True):
-            saved_element = serializer.save()
-        return Response({
-            "Элемент с id'{}' успешно изменен".format(saved_element.id)
-        })
-        # except:
-        #     return Response("Элемент с “id”: '{}' не существует, запрос не был выполнен".format(pk))
+        try:
+            saved_element = Element.objects.get(pk = pk)
+            data = request.data.get('element')
+            serializer = ElementSerializer(instance = saved_element, data = data, partial = True)
+            if serializer.is_valid(raise_exception=True):
+                saved_element = serializer.save()
+            return Response({
+                "Элемент с id'{}' успешно изменен".format(saved_element.id)
+            })
+        except Element.DoesNotExist:
+            return Response("Элемент с “id”: '{}' не существует, запрос не был выполнен".format(pk), status = 404)
+
     def delete(self, request, pk):
         try:
             element = Element.objects.get(pk = pk)
