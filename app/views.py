@@ -51,8 +51,8 @@ class ElementView(APIView):
             return Response({
                 "Элемент с id'{}' удален".format(pk)
             })
-        except:
-            return Response("Элемент с “id”: '{}' не существует, запрос не был выполнен".format(pk))
+        except Element.DoesNotExist:
+            return Response("Элемент с “id”: '{}' не существует, запрос не был выполнен".format(pk), status=404)
 
 
 
