@@ -14,7 +14,7 @@ class Element(models.Model):
 
     href = models.CharField(max_length=255)
     # company_id = models.UUIDField(primary_key = False,default = uuid.uuid4,editable = False)
-    parent_id = models.ForeignKey("self", on_delete=models.PROTECT, null = True)
+    parent_id = models.ForeignKey("self", on_delete=models.CASCADE, null = True)
     label = models.CharField(max_length=255)
     children = models.CharField(max_length=255, default= 0, blank = True)
 
