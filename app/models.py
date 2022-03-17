@@ -14,12 +14,18 @@ class Element(models.Model):
 
     href = models.CharField(max_length=255)
     # company_id = models.UUIDField(primary_key = False,default = uuid.uuid4,editable = False)
-    parent_id = models.ForeignKey("self", on_delete=models.CASCADE, null = True)
+    parent_id = models.ForeignKey("self", on_delete=models.CASCADE, null = True, blank = True)
     label = models.CharField(max_length=255)
     children = models.CharField(max_length=255, default= 0, blank = True)
 
     def __str__(self):
         return self.label
+
+    @classmethod
+    def create(cls, href, parent_id, label, children):
+        element = cls(href=href, parent_id = parent_id, label = label, children = children)
+        element.save()
+        return element
 
     objects = ElementManager()
 
@@ -67,6 +73,10 @@ class Element(models.Model):
             child.append(self.id)
             el.children = child
             el.save()
+
+
+
+
 
 
 

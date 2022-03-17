@@ -12,8 +12,9 @@ class ElementSerializer(serializers.ModelSerializer):
         element = Element.objects.create_element(**validated_data)
         return element
 
+
     def update(self, instance, validated_data):
-        if validated_data.get('parent_id') not in Element.objects.all():
+        if (validated_data.get('parent_id') not in Element.objects.all()):
             return "Нет такого parent_id"
         else:
             if instance.parent_id != validated_data.get('parent_id'):
