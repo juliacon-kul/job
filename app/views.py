@@ -21,7 +21,7 @@ class ElementView(APIView):
     def post(self, request):
         element = request.data.get('element')
         element['children'] = []
-        if (type(data['parent_id']) is int and data['parent_id'] > 0):
+        if (type(element['parent_id']) is int and element['parent_id'] > 0):
             if Element.objects.filter(pk=element['parent_id']).exists():
                 serializer = ElementSerializer(data = element)
                 if serializer.is_valid(raise_exception=True):
@@ -36,7 +36,7 @@ class ElementView(APIView):
                     "Элемент с таким родительским id'{}' не существует"
                 })
         else: return Response({
-                    "Parent_id должен иметь тип данных int"
+                    "Parent_id должен иметь тип данных int и быть больше 0"
                 })
 
     def put(self, request, pk):
@@ -45,12 +45,18 @@ class ElementView(APIView):
             data = request.data.get('element')
             if (type(data['parent_id']) is int and data['parent_id'] > 0):
                 if Element.objects.filter(pk = data['parent_id']).exists():
-                    serializer = ElementSerializer(instance=saved_element, data=data, partial=True)
-                    if serializer.is_valid(raise_exception=True):
-                        saved_element = serializer.save()
-                    return Response({
-                        "Элемент с id'{}' успешно изменен".format(saved_element.id)
-                    })
+                    if saved_element in Element.objects.filter(pk = data['parent_id']):
+                        return Response({
+                            "Родителем элемента не может быть сам элемент"
+                        })
+                    else:
+                        serializer = ElementSerializer(instance=saved_element, data=data, partial=True)
+                        if serializer.is_valid(raise_exception=True):
+                            saved_element = serializer.save()
+                        return Response({
+                            "Элемент с id'{}' успешно изменен".format(saved_element.id)
+                        })
+
                 else:return Response({
                         "Элемент с таким родительским id'{}' не существует"
                     })
