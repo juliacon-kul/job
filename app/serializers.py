@@ -1,9 +1,39 @@
 from rest_framework import serializers
 from app.models import Element, ElementManager
 
-class ElementSerializer(serializers.ModelSerializer):
+def children(value):
+    s = value
+    l = len(s)
+    integ = []
+    i = 0
+    while i < l:
+        s_int = ''
+        a = s[i]
+        while '0' <= a <= '9':
+            s_int += a
+            i += 1
+            if i < l:
+                a = s[i]
+            else:
+                break
+        i += 1
+        if s_int != '':
+            integ.append(int(s_int))
+    return integ
+class IdField(serializers.RelatedField):
+    def to_representation(self, value):
+        return str(value)
 
+class ChildrenField(serializers.RelatedField):
+
+    def to_representation(self, value):
+        pass
+
+
+class ElementSerializer(serializers.ModelSerializer):
+    id = IdField(read_only=True)
     children = serializers.ListField(allow_empty=True)
+    # children = ChildrenField()
     class Meta:
         model = Element
         fields = ('id','href', 'parent_id', 'label', 'children')

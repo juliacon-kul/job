@@ -1,4 +1,5 @@
 from django.db import models
+import uuid
 
 
 # Create your models here.
@@ -13,7 +14,6 @@ class ElementManager(models.Manager):
 class Element(models.Model):
 
     href = models.CharField(max_length=255)
-    # company_id = models.UUIDField(primary_key = False,default = uuid.uuid4,editable = False)
     parent_id = models.ForeignKey("self", on_delete=models.CASCADE, null = True, blank = True)
     label = models.CharField(max_length=255)
     children = models.CharField(max_length=255, default= 0, blank = True)
@@ -21,11 +21,11 @@ class Element(models.Model):
     def __str__(self):
         return self.label
 
-    @classmethod
-    def create(cls, href, parent_id, label, children):
-        element = cls(href=href, parent_id = parent_id, label = label, children = children)
-        element.save()
-        return element
+    # @classmethod
+    # def create(cls, href, parent_id, label, children):
+    #     element = cls(href=href, parent_id = parent_id, label = label, children = children)
+    #     element.save()
+    #     return element
 
     objects = ElementManager()
 
@@ -47,6 +47,25 @@ class Element(models.Model):
             i += 1
             if s_int != '':
                 integ.append(int(s_int))
+        return integ
+    def string_from_string(self):
+        s = self.children
+        l = len(s)
+        integ = []
+        i = 0
+        while i < l:
+            s_int = ''
+            a = s[i]
+            while '0' <= a <= '9':
+                s_int += a
+                i += 1
+                if i < l:
+                    a = s[i]
+                else:
+                    break
+            i += 1
+            if s_int != '':
+                integ.append(s_int)
         return integ
 
     def children_list(self, *args,**kwargs):
