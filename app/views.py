@@ -43,7 +43,14 @@ class ElementView(APIView):
         if Element.objects.filter(pk = pk).exists():
             saved_element = Element.objects.get(pk = pk)
             data = request.data.get('element')
-            if (type(data['parent_id']) is int and data['parent_id'] > 0):
+            if pk == 1:
+                serializer = ElementSerializer(instance=saved_element, data=data, partial=True)
+                if serializer.is_valid(raise_exception=True):
+                    saved_element = serializer.save()
+                return Response({
+                    "Элемент с id'{}' успешно изменен".format(saved_element.id)
+                })
+            elif (type(data['parent_id']) is int and data['parent_id'] > 0):
                 if Element.objects.filter(pk = data['parent_id']).exists():
                     if saved_element in Element.objects.filter(pk = data['parent_id']):
                         return Response({
