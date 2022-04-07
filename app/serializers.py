@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from app.models import Element, ElementManager
+from django.utils.text import slugify
 
 def children(value):
     s = value
@@ -24,19 +25,14 @@ class IdField(serializers.RelatedField):
     def to_representation(self, value):
         return str(value)
 
-# class ChildrenField(serializers.RelatedField):
-#
-#     def to_representation(self, value):
-#         pass
-
-
 class ElementSerializer(serializers.ModelSerializer):
     id = IdField(read_only=True)
     children = serializers.ListField(allow_empty=True)
-    # children = ChildrenField()
+
     class Meta:
         model = Element
-        fields = ('id','href', 'parent_id', 'label', 'children')
+        fields = ('id','href',
+                  'parent_id', 'label', 'children', 'team_id', 'company_id', 'company_name','slug')
 
     def create(self, validated_data):
         element = Element.objects.create_element(**validated_data)
@@ -47,6 +43,10 @@ class ElementSerializer(serializers.ModelSerializer):
         if instance.id == 1:
             instance.label = validated_data.get('label', instance.label)
             instance.href = validated_data.get('href', instance.href)
+            instance.team_id = validated_data.get('team_id',instance.team_id)
+            instance.company_id = validated_data.get('company_id', instance.company_id)
+            instance.company_name = validated_data.get('company_name', instance.company_name)
+
             instance.save()
         else:
 
@@ -55,12 +55,18 @@ class ElementSerializer(serializers.ModelSerializer):
                     instance.label = validated_data.get('label', instance.label)
                     instance.href = validated_data.get('href', instance.href)
                     instance.parent_id = validated_data.get('parent_id', instance.parent_id)
+                    instance.team_id = validated_data.get('team_id', instance.team_id)
+                    instance.company_id = validated_data.get('company_id', instance.company_id)
+                    instance.company_name = validated_data.get('company_name', instance.company_name)
                     instance.save()
                     instance.children_list_update()
             else:
                 instance.label = validated_data.get('label', instance.label)
                 instance.href = validated_data.get('href', instance.href)
                 instance.parent_id = validated_data.get('parent_id', instance.parent_id)
+                instance.team_id = validated_data.get('team_id', instance.team_id)
+                instance.company_id = validated_data.get('company_id', instance.company_id)
+                instance.company_name = validated_data.get('company_name', instance.company_name)
                 instance.save()
 
         return instance

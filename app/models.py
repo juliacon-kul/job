@@ -1,13 +1,22 @@
 from django.db import models
+from django.template.defaultfilters import slugify
 import uuid
 
 
 # Create your models here.
 
 class ElementManager(models.Manager):
-    def create_element(self, href, parent_id, label, children):
+    def create_element(self, href, parent_id, label, children, team_id,company_id, company_name):
 
-        element = self.create(href = href, parent_id = parent_id, label = label, children = children)
+
+        element = self.create(href = href,
+                              parent_id = parent_id,
+                              label = label,
+                              children = children,
+                              team_id = team_id,
+                              company_id=company_id,
+                              company_name = company_name,
+                              )
         element.children_list()
         return element
 
@@ -17,15 +26,19 @@ class Element(models.Model):
     parent_id = models.ForeignKey("self", on_delete=models.CASCADE, null = True, blank = True)
     label = models.CharField(max_length=255)
     children = models.CharField(max_length=255, default= 0, blank = True)
+    company_id = models.CharField(max_length=255)
+    company_name = models.CharField(max_length=255)
+    slug=models.SlugField(max_length=255, blank=True)
+    team_id = models.CharField(max_length=255, default="", blank = True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.company_name)
+        super(Element, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.label
 
-    # @classmethod
-    # def create(cls, href, parent_id, label, children):
-    #     element = cls(href=href, parent_id = parent_id, label = label, children = children)
-    #     element.save()
-    #     return element
+
 
     objects = ElementManager()
 
