@@ -3,7 +3,18 @@ from app.serializers import ElementSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions
+import logging
+from django.views.generic import ListView
 
+
+logger = logging.getLogger(__name__)
+
+class ElementsList(ListView):
+    model = Element
+
+    def get_queryset(self):
+        logger.info("ElementsList.get_queryset called")
+        return Element.objects.select_related("region").all()
 
 class ElementView(APIView):
     permission_classes = [permissions.AllowAny,]

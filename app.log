@@ -1,0 +1,15 @@
+[25Apr 10:23:26] INFO [django.utils.autoreload:597] Watching for file changes with StatReloader
+[25Apr 10:36:08] INFO [django.utils.autoreload:217] C:\Users\Invo\py\D3\Django\my_site\cloveri\app\views.py changed, reloading.
+[25Apr 10:36:09] INFO [django.utils.autoreload:597] Watching for file changes with StatReloader
+[25Apr 10:36:29] INFO [django.utils.autoreload:217] C:\Users\Invo\py\D3\Django\my_site\cloveri\app\views.py changed, reloading.
+[25Apr 10:36:30] INFO [django.utils.autoreload:597] Watching for file changes with StatReloader
+[25Apr 10:36:38] INFO [django.utils.autoreload:217] C:\Users\Invo\py\D3\Django\my_site\cloveri\app\views.py changed, reloading.
+[25Apr 10:36:39] INFO [django.utils.autoreload:597] Watching for file changes with StatReloader
+[25Apr 10:36:46] INFO [django.utils.autoreload:217] C:\Users\Invo\py\D3\Django\my_site\cloveri\app\views.py changed, reloading.
+[25Apr 10:36:47] INFO [django.utils.autoreload:597] Watching for file changes with StatReloader
+[25Apr 10:38:11] INFO [django.utils.autoreload:217] C:\Users\Invo\py\D3\Django\my_site\cloveri\app\views.py changed, reloading.
+[25Apr 10:38:12] INFO [django.utils.autoreload:597] Watching for file changes with StatReloader
+[25Apr 12:55:39] INFO [django.utils.autoreload:217] C:\Users\Invo\py\D3\Django\my_site\cloveri\app\views.py changed, reloading.
+[25Apr 12:55:40] INFO [django.utils.autoreload:597] Watching for file changes with StatReloader
+[25Apr 12:57:30] INFO [django.utils.autoreload:217] C:\Users\Invo\py\D3\Django\my_site\cloveri\app\views.py changed, reloading.
+[25Apr 12:57:31] INFO [django.utils.autoreload:597] Watching for file changes with StatReloader
